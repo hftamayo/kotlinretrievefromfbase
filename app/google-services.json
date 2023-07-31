@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "809302930976",
+    "project_id": "todo-8ed5c",
+    "storage_bucket": "todo-8ed5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:809302930976:android:4b85c85488e7db90b76e45",
+        "android_client_info": {
+          "package_name": "com.hftamayo.kotlinfirebaselogin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "809302930976-q3pihloait8kp2q4dk18qemoabfd3hf9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvi4oeN_9i0x3O1LFJpd6rCGjf-R3-QVc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "809302930976-q3pihloait8kp2q4dk18qemoabfd3hf9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:809302930976:android:fb8d29d4708ab875b76e45",
+        "android_client_info": {
+          "package_name": "com.hftamayo.kotlinretrievefromfbase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "809302930976-q3pihloait8kp2q4dk18qemoabfd3hf9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvi4oeN_9i0x3O1LFJpd6rCGjf-R3-QVc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "809302930976-q3pihloait8kp2q4dk18qemoabfd3hf9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
