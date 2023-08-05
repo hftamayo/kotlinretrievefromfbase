@@ -1,6 +1,7 @@
 package com.hftamayo.kotlinretrievefromfbase;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.myViewHolder> {
 
     Context context;
-    ArrayList<Task> userArrayList;
+    ArrayList<User> userArrayList;
 
     public MyAdapter(Context context, ArrayList<Task> userArrayList) {
         this.context = context;
@@ -23,11 +24,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.myViewHolder> {
     @NonNull
     @Override
     public MyAdapter.myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View v = LayoutInflater.from(context).inflate(R.layout.item,parent, false);
+        return new myViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.myViewHolder holder, int position) {
+        User user = userArrayList.get(position);
+
+        holder.firstName.setText(user.firstName);
+        holder.lastName.setText(user.lastName);
+        holder.age.setText(String.valueOf(user.age));
 
     }
 
