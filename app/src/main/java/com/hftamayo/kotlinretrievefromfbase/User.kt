@@ -1,3 +1,3 @@
 package com.hftamayo.kotlinretrievefromfbase
 
-data class User(private var firstName: String, private var lastName: String, private var age: Int)
+data class User(var firstName: String, var lastName: String, var age: Int)
