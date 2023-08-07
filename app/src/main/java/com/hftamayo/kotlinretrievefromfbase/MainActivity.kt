@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private void EventChangeListener() {
-        db.collection("Users").orderBy("firstName", Query.Direction.ASCENDING)
+        db.collection("users").orderBy("firstName", Query.Direction.ASCENDING)
             .addSnapshotListener(new EventListener<QuerySnapshot>(){
                 @Override
                 public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error){
