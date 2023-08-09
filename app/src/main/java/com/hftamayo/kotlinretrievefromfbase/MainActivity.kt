@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.FirebaseException
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
+import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
@@ -38,6 +41,13 @@ class MainActivity : AppCompatActivity() {
         userAdapter = UserDataAdapter()
         recyclerView.adapter = userAdapter
 
+    }
+
+    private fun getData(){
+        db.collection("users").orderBy("firstName", Query.Direction.ASCENDING)
+            .addSnapshotListener(EventListener<QuerySnapshot>(){
+
+            })
     }
 
 
