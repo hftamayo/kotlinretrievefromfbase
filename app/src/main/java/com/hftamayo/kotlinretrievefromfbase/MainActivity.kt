@@ -1,27 +1,24 @@
 package com.hftamayo.kotlinretrievefromfbase
 
 import android.app.ProgressDialog
-import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.Query
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.firestore.EventListener
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var usersArrayList: ArrayList<User>
     private var userAdapter : UserDataAdapter? = null
-    private var db: FirebaseFirestore? = null
+    private var databaseReference: DatabaseReference? = null
     private var progressDialog: ProgressDialog? = null
+    private var eventListener : ValueEventListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -38,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView(){
         recyclerView = findViewById(R.id.recyclerView)
-        db = FirebaseFirestore.getInstance()
+        databaseReference = FirebaseDatabase.getInstance().getReference("users")
     }
 
     private fun initRecyclerView(){
@@ -50,15 +47,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getData(){
-        val dataListener = object : ValueEventListener {
+        eventListener = databaseReference!!.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val post = dataSnapshot.getValue<Post>()
+                usersArrayList.clear()
+                for(itemSnapshot in snapshot.children){
+                    val userClass = itemSnapshot.getValue(User::class.java)
+                    if(userClass != null){
+                        usersArrayList.add(userClass)
+                    }
+                }
+                userAdapter.notifyDataSetChanged()
+                if(progressDialog?.isShowing() == true){
+                    progressDialog!!.dismiss()
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.w(TAG, "loadPost: onCancelled", databaseError.toException())
+                if(progressDialog?.isShowing() == true){
+                    progressDialog!!.dismiss()
+                }
             }
-        }
+        })
     }
-
 }
