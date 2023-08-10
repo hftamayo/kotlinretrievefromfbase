@@ -26,6 +26,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        progressDialog = ProgressDialog(this)
+        progressDialog!!.setCancelable(false)
+        progressDialog!!.setMessage("Fetching data...")
+        progressDialog!!.show()
+
         initView()
         initRecyclerView()
     }
