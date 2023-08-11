@@ -31,11 +31,11 @@ class MainActivity : AppCompatActivity() {
 
         initView()
         initRecyclerView()
+        getData()
     }
 
     private fun initView(){
         recyclerView = findViewById(R.id.recyclerView)
-        databaseReference = FirebaseDatabase.getInstance().getReference("users")
     }
 
     private fun initRecyclerView(){
@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getData(){
+        databaseReference = FirebaseDatabase.getInstance().getReference("users")
         eventListener = databaseReference!!.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 usersArrayList.clear()
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
                         usersArrayList.add(userClass)
                     }
                 }
-                userAdapter.notifyDataSetChanged()
+                userAdapter?.notifyDataSetChanged()
                 if(progressDialog?.isShowing() == true){
                     progressDialog!!.dismiss()
                 }
