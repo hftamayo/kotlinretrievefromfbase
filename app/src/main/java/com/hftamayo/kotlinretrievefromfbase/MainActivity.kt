@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getData(){
-        databaseReference = FirebaseDatabase.getInstance().getReference("users")
+        databaseReference = FirebaseDatabase.getInstance().getReference("todo")
         eventListener = databaseReference!!.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 usersArrayList.clear()
