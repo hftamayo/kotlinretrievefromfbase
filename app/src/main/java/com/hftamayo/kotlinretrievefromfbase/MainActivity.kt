@@ -12,13 +12,13 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class MainActivity : AppCompatActivity() {
-
+    var databaseReference: DatabaseReference? = null
+    var eventListener : ValueEventListener? = null
     private lateinit var recyclerView: RecyclerView
     private lateinit var usersArrayList: ArrayList<User>
-    private var userAdapter : UserDataAdapter? = null
-    private var databaseReference: DatabaseReference? = null
+    private lateinit var userAdapter : UserDataAdapter
     private var progressDialog: ProgressDialog? = null
-    private var eventListener : ValueEventListener? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
