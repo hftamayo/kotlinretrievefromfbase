@@ -19,18 +19,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var userAdapter : UserDataAdapter
     private var progressDialog: ProgressDialog? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        progressDialog = ProgressDialog(this)
-        progressDialog!!.setCancelable(false)
-        progressDialog!!.setMessage("Fetching data...")
-        progressDialog!!.show()
-
         initView()
         initRecyclerView()
+        showProgressBar()
         getData()
     }
 
@@ -44,6 +38,13 @@ class MainActivity : AppCompatActivity() {
         userAdapter = UserDataAdapter()
         recyclerView.adapter = userAdapter
 
+    }
+
+    private fun showProgressBar(){
+        progressDialog = ProgressDialog(this)
+        progressDialog!!.setCancelable(false)
+        progressDialog!!.setMessage("Fetching data...")
+        progressDialog!!.show()
     }
 
     private fun getData(){
