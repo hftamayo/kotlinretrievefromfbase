@@ -59,14 +59,14 @@ class MainActivity : AppCompatActivity() {
                         usersArrayList.add(userClass)
                     }
                 }
-                userAdapter?.notifyDataSetChanged()
-                if(progressDialog?.isShowing() == true){
+                userAdapter.notifyDataSetChanged()
+                if(progressDialog?.isShowing == true){
                     progressDialog!!.dismiss()
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                if(progressDialog?.isShowing() == true){
+                if(progressDialog?.isShowing == true){
                     progressDialog!!.dismiss()
                 }
             }
