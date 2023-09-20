@@ -1,6 +1,7 @@
 package com.hftamayo.kotlinretrievefromfbase
 
 import android.app.ProgressDialog
+import android.content.ClipData.Item
 import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,33 +18,16 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 
 class MainActivity : AppCompatActivity() {
-    private var db : FirebaseFirestore? = null
-    private var databaseReference : DatabaseReference? = null
-    var eventListener : ValueEventListener? = null
     private lateinit var recyclerView: RecyclerView
-    private lateinit var usersArrayList: ArrayList<User>
     private lateinit var userAdapter : UserDataAdapter
     private var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initView()
-        initRecyclerView()
         showProgressBar()
+        initRecyclerView()
         getData()
-    }
-
-    private fun initView(){
-        recyclerView = findViewById(R.id.recyclerView)
-    }
-
-    private fun initRecyclerView(){
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        userAdapter = UserDataAdapter()
-        recyclerView.adapter = userAdapter
-
     }
 
     private fun showProgressBar(){
@@ -53,61 +37,35 @@ class MainActivity : AppCompatActivity() {
         progressDialog!!.show()
     }
 
-    private fun getData2(){
-        usersArrayList = ArrayList()
-        db = FirebaseFirestore.getInstance()
-        db!!.firestoreSettings = FirebaseFirestoreSettings.Builder().build()
-
-        db!!
-            .collection("users")
-            .get()
-            .addOnSuccessListener { data ->
-                try{
-                    if (data != null){
-                        for(record in data) {
-                            val fName = record["firstName"].toString()
-                            val lName = record["lastName"].toString()
-                            val age = record["age"].toString().toInt()
-                            val user = User(firstName = fName, lastName = lName, age = age)
-                            usersArrayList.add(user)
-                        }
-                        userAdapter.notifyDataSetChanged()
-                        //Toast.makeText(context, "Data read successfully", Toast.LENGTH_LONG).show()
-                    } else {
-                        //Toast.makeText(context, "No data found", Toast.LENGTH_LONG).show()
-                    }
-                }catch (ex: Exception) {
-                    ex.message?.let { Log.e(TAG, it) }
-                }
-            }.addOnFailureListener{
-                e -> Log.e(TAG, "Error in the connection process", e)
-            }
-
+    private fun initRecyclerView(){
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
     private fun getData(){
-        usersArrayList = ArrayList()
-        databaseReference = FirebaseDatabase.getInstance().getReference("users")
-        eventListener = databaseReference!!.addValueEventListener(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                usersArrayList.clear()
-                for(itemSnapshot in snapshot.children){
-                    val userClass = itemSnapshot.getValue(User::class.java)
-                    if(userClass != null){
-                        usersArrayList.add(userClass)
-                    }
+        val db = FirebaseFirestore.getInstance()
+        db.collection("users")
+            .get()
+            .addOnSuccessListener { result ->
+                val itemList = mutableListOf<User>()
+                for(document in result){
+                    val id = document.id
+                    val firstName = document.getString("firstName") ?: ""
+                    val lastName = document.getString("lastName") ?: ""
+                    val age = document.("age") ?: ""
+                    itemList.add(User(firstName, lastName, age))
                 }
-                userAdapter.notifyDataSetChanged()
+                userAdapter = UserDataAdapter(itemList)
+                recyclerView.adapter = userAdapter
                 if(progressDialog?.isShowing == true){
                     progressDialog!!.dismiss()
                 }
             }
-
-            override fun onCancelled(error: DatabaseError) {
+            .addOnFailureListener{
+                exception -> Log.d(TAG, "Error getting documents", exception)
                 if(progressDialog?.isShowing == true){
                     progressDialog!!.dismiss()
                 }
             }
-        })
     }
 }
