@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getData(){
         val db = FirebaseFirestore.getInstance()
+        //the database was binded during app's auth, we just need to refer to collection's name
         db.collection("users")
             .get()
             .addOnSuccessListener { result ->
@@ -52,8 +53,8 @@ class MainActivity : AppCompatActivity() {
                     val id = document.id
                     val firstName = document.getString("firstName") ?: ""
                     val lastName = document.getString("lastName") ?: ""
-                    val age = document.("age") ?: ""
-                    itemList.add(User(firstName, lastName, age))
+                    val age = document.getString("age") ?: ""
+                    itemList.add(User(firstName, lastName, age.toInt()))
                 }
                 userAdapter = UserDataAdapter(itemList)
                 recyclerView.adapter = userAdapter
