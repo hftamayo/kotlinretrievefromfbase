@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
                     val firstName = document.getString("firstName") ?: ""
                     val lastName = document.getString("lastName") ?: ""
                     val age = document.getString("age") ?: ""
-                    itemList.add(User(firstName, lastName, age.toInt()))
+                    itemList.add(User(firstName, lastName, age))
                 }
                 userAdapter = UserDataAdapter(itemList)
                 recyclerView.adapter = userAdapter
